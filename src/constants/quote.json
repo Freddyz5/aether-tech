@@ -24,6 +24,7 @@
         {
           "kind": "toggle",
           "id": "landing-base",
+          "tag": "U1",
           "name": "Landing de presentación",
           "initial": true,
           "description": "Incluye 5 secciones: portada, quiénes somos, selección destacada, catálogo y sección de cierre con redirección a WhatsApp — más cabecera y pie. El texto final se define con el cliente, con ajustes finales y publicación en la web.",
@@ -32,6 +33,7 @@
         {
           "kind": "counter",
           "id": "paginas-extra",
+          "tag": "U2",
           "name": "Subpágina",
           "initial": 0,
           "min": 0,
@@ -47,6 +49,7 @@
         {
           "kind": "counter",
           "id": "secciones-extra",
+          "tag": "U3",
           "name": "Sección informativa adicional",
           "initial": 0,
           "min": 0,
@@ -57,7 +60,7 @@
             "plural": "secciones"
           },
           "description": "Una sección con texto, imágenes y diseño propio.",
-          "pricePerUnit": 35
+          "pricePerUnit": 45
         }
       ]
     },
@@ -68,6 +71,7 @@
         {
           "kind": "toggle",
           "id": "catalogo-base",
+          "tag": "U4",
           "name": "Catálogo público",
           "initial": true,
           "description": "Buscador, filtros por categoría, ficha de cada libro, estados de stock y pedido por WhatsApp — con datos reales en base de datos, no de muestra.",
@@ -87,6 +91,7 @@
           "options": [
             {
               "id": "carga-panel",
+              "tag": "J1",
               "name": "Panel de administración",
               "recommended": true,
               "description": "Cuentas para 2 administradores, formulario de ingreso de libros (foto, título, autor, categoría, precio, stock) y vista de inventario. Autonomía total: ingreso, edición y eliminación sin depender del desarrollador.",
@@ -94,12 +99,14 @@
             },
             {
               "id": "carga-planilla",
+              "tag": "J2",
               "name": "Planilla de Google Sheets",
               "description": "Documento compartido en Google Sheets en el cual los administradores pueden editar los datos. La planilla se sincroniza con el catálogo automáticamente, sin intervención del desarrollador. No incluye subida de fotos: las imágenes se cargan a la nube aparte y se pegan los enlaces en la planilla.",
               "price": 180
             },
             {
               "id": "carga-inicial",
+              "tag": "J3",
               "name": "Catálogo fijo",
               "description": "Carga realizada por el desarrollador (50 libros) una sola vez, con los libros que el cliente proporcione. Después el catálogo queda fijo: no hay panel ni planilla para actualizarlo.",
               "price": 70
@@ -109,6 +116,7 @@
         {
           "kind": "toggle",
           "id": "pdf",
+          "tag": "U5",
           "name": "Catálogo en PDF",
           "initial": false,
           "requires": "catalogo-base",
@@ -118,6 +126,7 @@
         {
           "kind": "toggle",
           "id": "enlaces",
+          "tag": "U6",
           "name": "Enlaces compartibles",
           "initial": false,
           "requires": "catalogo-base",
@@ -127,6 +136,7 @@
         {
           "kind": "toggle",
           "id": "extras",
+          "tag": "U7",
           "name": "Etiquetas y contador de pedidos",
           "initial": false,
           "requires": "catalogo-base",
@@ -142,6 +152,7 @@
         {
           "kind": "counter",
           "id": "bolsa-soporte",
+          "tag": "S1",
           "name": "Servicio de soporte por hora",
           "initial": 0,
           "min": 0,
@@ -187,20 +198,8 @@
     "saveEmpty": "No hay piezas seleccionadas",
     "recurringTitle": "Costos adicionales externos",
     "notIncludedTitle": "Lo que este presupuesto no incluye",
-    "scheduleNote": "El cronograma se acuerda al aprobar la propuesta y depende de los tiempos de revisión del cliente. La producción se ejecuta en días hábiles."
-  },
-  "document": {
-    "title": "Cotización",
-    "preparedFor": "Preparado para",
-    "preparedBy": "Preparado por",
-    "issuedOn": "Fecha de emisión",
-    "validity": "Validez",
-    "validityValue": "días desde la emisión",
-    "colConcept": "Concepto",
-    "colAmount": "Valor",
-    "subtotal": "Subtotal",
-    "total": "Total estimado",
-    "signClient": "Por el cliente",
-    "signDeveloper": "Por el desarrollador"
+    "scheduleNote": "El cronograma se acuerda al aprobar la propuesta y depende de los tiempos de revisión del cliente. La producción se ejecuta en días hábiles.",
+    "validityTitle": "Validez de la cotización",
+    "validitySuffix": "días desde la fecha de emisión"
   }
 }

@@ -1,16 +1,16 @@
 ---
 /*
-  Adaptado de portafolio/src/shared/layout/CommercialLayout.astro. Misma idea:
-  reset, tokens --cl-* y arranque del tema en un único archivo que no depende
-  del layout de ningún otro sitio. Lo que cambia aquí es la paleta (navy +
-  dorado, tomada de los flyers de Aether Tech en vez del naranja del
-  portafolio) y que el sitio es monolingüe: no hay prop `lang` variable, sólo
-  español.
+  Reescrito a partir del diseño "Cotizacion Aether Tech.dc.html" (Claude
+  Design): estética "blueprint" — navy + dorado, marcas de esquina, grilla
+  punteada, Barlow/Barlow Condensed. El mockup trae un solo look, no dos
+  (claro/oscuro), así que a diferencia de la versión anterior aquí no hay
+  selector de tema ni tokens --cl-*: los nombres de variable son los mismos
+  que trae el diseño (--at-*, --color-*) para que el mapeo quede 1 a 1.
 */
-import '@fontsource-variable/orbitron';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
-import '@fontsource/ibm-plex-mono/600.css';
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow-condensed/400.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
 
 interface Props {
   title: string;
@@ -29,8 +29,7 @@ const BASE_URL = import.meta.env.BASE_URL;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0f1638" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#f4f5fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#e6eaf0" />
     <link rel="icon" type="image/svg+xml" href={`${BASE_URL}favicon.svg`} />
 
     <meta property="og:url" content={url} />
@@ -40,18 +39,6 @@ const BASE_URL = import.meta.env.BASE_URL;
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-
-    {/* Se resuelve antes de pintar para que el tema guardado no llegue tarde. */}
-    <script is:inline>
-      (() => {
-        let saved = null;
-        try { saved = localStorage.getItem('cl-theme'); } catch (e) {}
-        if (saved !== 'light' && saved !== 'dark') {
-          saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        }
-        document.documentElement.dataset.clTheme = saved;
-      })();
-    </script>
   </head>
 
   <body>
@@ -60,65 +47,33 @@ const BASE_URL = import.meta.env.BASE_URL;
 </html>
 
 <style is:global>
-  /* ===== TOKENS --cl-* =====
-     Paleta Aether Tech: navy de los flyers como base y dorado como acento.
-     Sólo se emiten en esta ruta: ningún otro documento importa este layout. */
+  /* ===== TOKENS =====
+     Mismos nombres que el archivo .dc.html de origen: --at-* para la marca,
+     --color-* para lo estructural. Un solo tema — el diseño no trae otro. */
   :root {
-    --cl-bg: #0f1638;
-    --cl-surface: #1a2456;
-    --cl-ink: #f5f6fb;
-    --cl-muted: #a7add1;
-    --cl-divider: color-mix(in srgb, #f5f6fb 40%, transparent);
-    --cl-accent: #f2b705;
-    --cl-accent-press: #d69f00;
-    --cl-accent-deep: #d69f00;
-    --cl-accent-text: #f2b705;
-    --cl-on-accent: #0f1638;
+    --color-bg: #e6eaf0;
+    --color-surface: #fdfdfc;
+    --color-text: #0d2149;
+    --color-divider: #c3cbd6;
+    --color-accent: #f2b705;
 
-    --cl-font-display: 'Orbitron Variable', sans-serif;
-    --cl-font-body: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+    --at-navy: #0d2149;
+    --at-navy-deep: #08152f;
+    --at-gold: #f2b705;
+    --at-gold-hi: #ffca2c;
+    --at-paper: #ffffff;
+    --at-plate: #dfe4ec;
+    --at-board: #dbe1ea;
+    --at-muted: #5a6a80;
+    --at-muted-soft: #7b889b;
+    --at-ink: #b9c6da;
+    --at-mark: color-mix(in srgb, #0d2149 45%, transparent);
 
-    --cl-rule: 2px;
-    --cl-pad: 20px;
-    --cl-measure: 760px;
+    --font-heading: 'Barlow Condensed', system-ui, sans-serif;
+    --font-body: 'Barlow', system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    color-scheme: dark;
-  }
-
-  :root[data-cl-theme='light'] {
-    --cl-bg: #f4f5fa;
-    --cl-surface: #e7e9f5;
-    --cl-ink: #0f1638;
-    --cl-muted: #4d5480;
-    --cl-divider: color-mix(in srgb, #0f1638 40%, transparent);
-    --cl-accent: #f2b705;
-    --cl-accent-press: #d69f00;
-    --cl-accent-deep: #6b4a00;
-    /* El dorado claro (#f2b705) alcanza para botones y titulares grandes, pero
-       no para etiquetas de 11-13px sobre el fondo claro. Esas usan el tono
-       profundo, más oscuro, igual que el acento rojo lo hacía en el original. */
-    --cl-accent-text: #6b4a00;
-    --cl-on-accent: #0f1638;
-
-    color-scheme: light;
-  }
-
-  /* Antes de que corra el script: respeta la preferencia del sistema. */
-  @media (prefers-color-scheme: light) {
-    :root:not([data-cl-theme='dark']) {
-      --cl-bg: #f4f5fa;
-      --cl-surface: #e7e9f5;
-      --cl-ink: #0f1638;
-      --cl-muted: #4d5480;
-      --cl-divider: color-mix(in srgb, #0f1638 40%, transparent);
-      --cl-accent: #f2b705;
-      --cl-accent-press: #d69f00;
-      --cl-accent-deep: #6b4a00;
-      --cl-accent-text: #6b4a00;
-      --cl-on-accent: #0f1638;
-
-      color-scheme: light;
-    }
+    --measure: 900px;
   }
 
   *,
@@ -134,108 +89,50 @@ const BASE_URL = import.meta.env.BASE_URL;
   body {
     margin: 0;
     padding: 0;
-    background: var(--cl-bg);
-    color: var(--cl-ink);
-    font-family: var(--cl-font-body);
+    background-color: var(--color-bg);
+    /*
+      Grilla "blueprint": puntos gruesos cada 48px sobre una malla fina de
+      16px. Cubre toda la página —cabecera incluida— porque en el diseño es
+      un único fondo, no una franja del hero.
+    */
+    background-image:
+      radial-gradient(circle, color-mix(in srgb, var(--at-navy) 16%, transparent) 1.1px, transparent 1.6px),
+      linear-gradient(color-mix(in srgb, var(--at-navy) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--at-navy) 5%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px, 16px 16px, 16px 16px;
+    background-position: -4px -4px, 0 0, 0 0;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-weight: 400;
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   a {
-    color: var(--cl-accent-deep);
+    color: var(--at-navy);
   }
 
   a:hover {
-    color: var(--cl-ink);
+    color: #c99400;
   }
 
   ::selection {
-    background: var(--cl-accent);
-    color: var(--cl-on-accent);
+    background: var(--at-gold);
+    color: var(--at-navy-deep);
   }
 
   :focus-visible {
-    outline: 2px solid var(--cl-accent);
+    outline: 2px solid var(--at-gold);
     outline-offset: 2px;
   }
 
-  /* ===== PIEZAS COMPARTIDAS =====
-     Botón de acción y banda de título: aparecen en más de una sección, así que
-     viven aquí y no duplicados en cada componente. */
-  .cl-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 56px;
-    padding: 16px var(--cl-pad);
-    font-family: var(--cl-font-display);
-    font-size: 13px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    text-wrap: balance;
-  }
-
-  .cl-btn--accent {
-    background: var(--cl-accent);
-    color: var(--cl-on-accent);
-    font-weight: 700;
-    transition: background-color 0.2s ease;
-  }
-
-  .cl-btn--accent:hover {
-    background: var(--cl-accent-press);
-    color: var(--cl-on-accent);
-  }
-
-  .cl-btn--ghost {
-    background: transparent;
-    border: var(--cl-rule) solid var(--cl-divider);
-    color: var(--cl-ink);
-    font-weight: 500;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-  }
-
-  .cl-btn--ghost:hover {
-    border-color: var(--cl-accent);
-    background: var(--cl-surface);
-    color: var(--cl-ink);
-  }
-
-  .cl-btn--invert {
-    background: var(--cl-on-accent);
-    color: var(--cl-accent);
-    font-weight: 700;
-    transition: opacity 0.2s ease;
-  }
-
-  .cl-btn--invert:hover {
-    opacity: 0.88;
-    color: var(--cl-accent);
-  }
-
-  .cl-section-title {
-    margin: 0;
-    padding: var(--cl-pad);
-    font-family: var(--cl-font-display);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    border-bottom: var(--cl-rule) solid var(--cl-divider);
-  }
-
-  @keyframes cl-rise {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
+  @media print {
+    body {
+      background: var(--at-paper);
     }
-    to {
-      opacity: 1;
-      transform: none;
+    [data-noprint] {
+      display: none !important;
     }
   }
 

@@ -8,16 +8,16 @@ interface Props {
 const { title, points } = Astro.props;
 ---
 
-<section class="cl-conditions">
-  <h2 class="cl-section-title">{title}</h2>
-  <ul class="cl-conditions__list">
+<div class="bp-card bp-conditions__card">
+  <div class="bp-conditions__title">{title}</div>
+  <ul class="bp-conditions__list">
     {
       points.map((point) => (
-        <li class="cl-conditions__item">
-          <span class="cl-conditions__bullet" aria-hidden="true" />
-          <span>{point}</span>
+        <li class="bp-conditions__item">
+          <span class="bp-conditions__dash" aria-hidden="true" />
+          <span class="bp-conditions__text">{point}</span>
         </li>
       ))
     }
   </ul>
-</section>
+</div>

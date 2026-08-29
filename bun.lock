@@ -4,8 +4,8 @@
     "": {
       "name": "aether-tech",
       "dependencies": {
-        "@fontsource-variable/orbitron": "5.0.18",
-        "@fontsource/ibm-plex-mono": "^5.2.7",
+        "@fontsource/barlow": "^5.2.8",
+        "@fontsource/barlow-condensed": "^5.2.7",
         "astro": "^5.16.4",
       },
       "devDependencies": {
@@ -110,9 +110,9 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.27.7", "", { "os": "win32", "cpu": "x64" }, "sha512-56hiAJPhwQ1R4i+21FVF7V8kSD5zZTdHcVuRFMW0hn753vVfQN8xlx4uOPT4xoGH0Z/oVATuR82AiqSTDIpaHg=="],
 
-    "@fontsource-variable/orbitron": ["@fontsource-variable/orbitron@5.0.18", "", {}, "sha512-RFZfk6drK2liLBHHfgBBSU9CiVwqMZ9/NQxMY5K4fZYJ3A4cIiILSREu8Pio5CMdOqsKS9N3pJpy79xRGLl4Bg=="],
+    "@fontsource/barlow": ["@fontsource/barlow@5.3.0", "", {}, "sha512-tGR0y6QObRtKv71MOth44222+mdNFM/ZWFWDV1VLzNbG4oK9PNRlyJzmkck4vHAi9ibHBXgt4SlY51amFP55CA=="],
 
-    "@fontsource/ibm-plex-mono": ["@fontsource/ibm-plex-mono@5.3.0", "", {}, "sha512-eTgnZjZEGk1QtD3ZstF+Vclo2HLAni8YMy34/DxllwZvyz1lR/1RF/xTiAquOBO7MvqBx8D2Ig2WCPMVfdZu7Q=="],
+    "@fontsource/barlow-condensed": ["@fontsource/barlow-condensed@5.3.0", "", {}, "sha512-RA7MmIx0v3eQ6Gcf74qLVLOwLB0GpPOzx+eU9iG/AmCnSJGcIWYeU8y6CEMGZ210MGwGg5CZhzLkkvyZdTTk1g=="],
 
     "@img/colour": ["@img/colour@1.1.0", "", {}, "sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ=="],
 

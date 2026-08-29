@@ -22,8 +22,6 @@ const data = quote as unknown as QuoteData;
 const BASE_URL = import.meta.env.BASE_URL;
 const url = new URL(`${BASE_URL}quote`, Astro.site ?? Astro.url.origin).href;
 
-const themeLabels = { aria: 'Cambiar tema', dark: 'Oscuro', light: 'Claro' };
-
 /*
   «Volver» no puede apuntar a "/" todavía: la raíz redirige a /quote (ver
   astro.config.mjs), así que sería un ciclo tonto en vez de una salida. Hasta
@@ -35,5 +33,5 @@ const backHref = 'https://www.facebook.com/p/AetherTech-61571211006887/';
 ---
 
 <CommercialLayout title={data.meta.title} description={data.meta.description} url={url}>
-  <QuotePage data={data} backHref={backHref} themeLabels={themeLabels} />
+  <QuotePage data={data} backHref={backHref} />
 </CommercialLayout>

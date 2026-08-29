@@ -1,33 +1,45 @@
 ---
 /*
-  El total, pegado abajo. No usa el campo acento a sangre como el cierre de la
-  landing a propósito: allí el texto pequeño sobre el acento claro se queda en
-  3,84:1, y aquí hay cifras que hay que poder leer. La regla de acento arriba
-  hace el mismo trabajo visual sin pagar ese precio.
+  Cierre del cotizador: la barra de validez, las acciones (imprimir/guardar)
+  y la nota de cronograma, más la barra de total que queda fija abajo. En el
+  diseño de origen la barra de total no llevaba data-noprint y por eso se
+  repetía en cada hoja al imprimir — se lo agrego aquí porque es un defecto
+  de impresión, no una decisión de estilo.
 */
 interface Props {
   totalLabel: string;
   print: string;
   save: string;
   scheduleNote: string;
+  validityTitle: string;
+  validityValue: string;
 }
 
-const { totalLabel, print, save, scheduleNote } = Astro.props;
+const { totalLabel, print, save, scheduleNote, validityTitle, validityValue } = Astro.props;
 ---
 
-<div class="cl-total" data-screen-only>
-  <div>
-    <p class="cl-total__label">{totalLabel}</p>
-    <p class="cl-total__amount" data-total-amount aria-live="polite"></p>
-  </div>
-  <p class="cl-total__count" data-total-count></p>
+<div class="bp-validity">
+  <span class="bp-validity__title">{validityTitle}</span>
+  <span class="bp-validity__rule" aria-hidden="true"></span>
+  <span class="bp-validity__value">{validityValue}</span>
 </div>
 
-<div class="cl-actions" data-screen-only>
-  <button type="button" class="cl-action" data-print>{print}</button>
-  <button type="button" class="cl-action cl-action--accent" data-save>
+<div class="bp-actions" data-noprint="1">
+  <button type="button" class="bp-action" data-print>{print}</button>
+  <button type="button" class="bp-action bp-action--accent" data-save>
     <span data-save-label>{save}</span>
   </button>
 </div>
 
-<p class="cl-schedule" data-screen-only>{scheduleNote}</p>
+<p class="bp-schedule">{scheduleNote}</p>
+
+<div class="bp-totalbar" data-noprint="1">
+  <div class="bp-totalbar__inner">
+    <div>
+      <p class="bp-totalbar__label">{totalLabel}</p>
+      <p class="bp-totalbar__amount" data-total-amount aria-live="polite"></p>
+    </div>
+    <span class="bp-totalbar__spacer"></span>
+    <p class="bp-totalbar__count" data-total-count></p>
+  </div>
+</div>

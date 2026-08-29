@@ -1,14 +1,17 @@
 ---
 /*
-  Composición del cotizador. Todo el marcado sale del servidor —incluidas las
-  filas del documento impreso—, así que la página se lee entera sin JavaScript;
-  lo que el controlador añade son los estados, las cifras y el enlace.
+  Composición del cotizador — puerto de "Cotizacion Aether Tech.dc.html"
+  (Claude Design). Todo el marcado sale del servidor, así que la página se
+  lee entera sin JavaScript; lo que el controlador añade son los estados,
+  las cifras y el enlace. Los datos viajan al cliente en un
+  <script type="application/json"> para no serializar un objeto grande con
+  define:vars.
 
-  Los datos viajan al cliente en un <script type="application/json"> para no
-  serializar un objeto grande con define:vars. A diferencia del original no
-  hay `lang` variable: el sitio es monolingüe (español), así que `lang` queda
-  fijo en 'es' — se conserva como valor porque format.ts lo usa para el
-  locale numérico (es-EC), no porque haya una ruta /en/ que elegir.
+  A diferencia de la versión anterior, aquí NO hay una sección aparte
+  "sólo para pantalla" y un documento aparte "sólo para imprimir": el diseño
+  de origen imprime la misma vista, y sólo oculta con [data-noprint] la
+  cabecera y los botones de acción (ver CommercialLayout.astro y
+  QuoteSummary.astro).
 */
 import QuoteHeader from './components/QuoteHeader.astro';
 import QuoteToggleItem from './components/QuoteToggleItem.astro';
@@ -16,7 +19,6 @@ import QuoteCounterItem from './components/QuoteCounterItem.astro';
 import QuoteChoiceItem from './components/QuoteChoiceItem.astro';
 import QuoteConditions from './components/QuoteConditions.astro';
 import QuoteSummary from './components/QuoteSummary.astro';
-import QuoteDocument from './components/QuoteDocument.astro';
 import { indexQuote } from './core/quote';
 import type { QuoteData } from './core/types';
 import './styles/quote.css';
@@ -24,45 +26,52 @@ import './styles/quote.css';
 interface Props {
   data: QuoteData;
   backHref: string;
-  themeLabels: { aria: string; dark: string; light: string };
 }
 
-const { data, backHref, themeLabels } = Astro.props;
+const { data, backHref } = Astro.props;
 const { ui, settings, phases } = data;
-const lang = 'es' as const;
 
 /* El nombre legible de cada requisito, para el cartel «Necesita: …». */
 const { nameById } = indexQuote(data);
 const requiresName = (id?: string) => (id ? nameById.get(id) ?? id : '');
+
+const validityValue = `${settings.validityDays} ${ui.validitySuffix}`;
 ---
 
-<QuoteHeader
-  back={ui.back}
-  backHref={backHref}
-  themeAria={themeLabels.aria}
-  themeDark={themeLabels.dark}
-  themeLight={themeLabels.light}
-/>
+<QuoteHeader back={ui.back} backHref={backHref} />
 
-<main class="cl-quote" id="quote" data-lang={lang}>
-  <section class="cl-quote__intro" data-screen-only>
-    <p class="cl-quote__eyebrow">{ui.eyebrow}</p>
-    <h1 class="cl-quote__title">{settings.subject}</h1>
-    <p class="cl-quote__lead">{ui.intro}</p>
-    <p class="cl-quote__readonly" data-readonly-notice hidden>{ui.readonlyNotice}</p>
+<main class="bp-quote" id="quote">
+  <section class="bp-hero">
+    <span class="bp-hero__corner bp-hero__corner--tl" aria-hidden="true"></span>
+    <span class="bp-hero__corner bp-hero__corner--tr" aria-hidden="true"></span>
+    <span class="bp-hero__corner bp-hero__corner--bl" aria-hidden="true"></span>
+    <span class="bp-hero__corner bp-hero__corner--br" aria-hidden="true"></span>
+    <span class="bp-hero__rule-v" aria-hidden="true"></span>
+    <span class="bp-hero__rule-h" aria-hidden="true"></span>
+    <span class="bp-hero__node" aria-hidden="true"></span>
+    <span class="bp-hero__box" aria-hidden="true"></span>
+
+    <p class="bp-hero__eyebrow">
+      <span class="bp-hero__eyebrow-rule" aria-hidden="true"></span>
+      <span class="bp-hero__eyebrow-text">{ui.eyebrow}</span>
+    </p>
+    <h1 class="bp-hero__title">{settings.subject}</h1>
+    <p class="bp-hero__lead">{ui.intro}</p>
   </section>
 
-  <QuoteDocument data={data} />
+  <p class="bp-readonly" data-readonly-notice hidden>{ui.readonlyNotice}</p>
 
-  <div data-screen-only>
-    {
-      phases.map((phase) => (
-        <section class="cl-phase">
-          <div class="cl-phase__head">
-            <h2 class="cl-phase__name">{phase.name}</h2>
-            {phase.note && <p class="cl-phase__note">{phase.note}</p>}
-          </div>
+  {
+    phases.map((phase) => (
+      <section class="bp-phase">
+        <div class="bp-phase__head">
+          <span class="bp-phase__dot" aria-hidden="true" />
+          <span class="bp-phase__name">{phase.name}</span>
+          <span class="bp-phase__rule" aria-hidden="true" />
+        </div>
+        {phase.note && <p class="bp-phase__note">{phase.note}</p>}
 
+        <div class="bp-phase__items">
           {phase.items.map((item) =>
             item.kind === 'toggle' ? (
               <QuoteToggleItem
@@ -88,12 +97,12 @@ const requiresName = (id?: string) => (id ? nameById.get(id) ?? id : '');
               />
             ),
           )}
-        </section>
-      ))
-    }
-  </div>
+        </div>
+      </section>
+    ))
+  }
 
-  <div data-screen-only>
+  <div class="bp-conditions">
     <QuoteConditions title={ui.recurringTitle} points={data.recurringCosts} />
     <QuoteConditions title={ui.notIncludedTitle} points={data.notIncluded} />
   </div>
@@ -103,6 +112,8 @@ const requiresName = (id?: string) => (id ? nameById.get(id) ?? id : '');
     print={ui.print}
     save={ui.save}
     scheduleNote={ui.scheduleNote}
+    validityTitle={ui.validityTitle}
+    validityValue={validityValue}
   />
 
   <script type="application/json" data-quote-data set:html={JSON.stringify(data)} is:inline />

@@ -21,6 +21,8 @@ export interface ToggleItem {
   /** Frase que se añade a la descripción según la opción elegida en un grupo. */
   variants?: Record<string, string>;
   requires?: string;
+  /** Etiqueta de referencia tipo "U1" — puramente cosmética, viene del diseño. */
+  tag?: string;
 }
 
 /** Pieza de cantidad variable: secciones extra, horas de soporte. */
@@ -35,6 +37,7 @@ export interface CounterItem {
   unit: UnitLabels;
   description: string;
   requires?: string;
+  tag?: string;
 }
 
 export interface ChoiceOption {
@@ -43,6 +46,7 @@ export interface ChoiceOption {
   price: number;
   description: string;
   recommended?: boolean;
+  tag?: string;
 }
 
 /** Grupo excluyente: hay que elegir una de las alternativas. */
@@ -93,7 +97,6 @@ export interface QuoteData {
   recurringCosts: string[];
   notIncluded: string[];
   ui: Record<string, string>;
-  document: Record<string, string>;
 }
 
 /*
