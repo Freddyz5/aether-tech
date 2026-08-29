@@ -1,0 +1,206 @@
+{
+  "meta": {
+    "title": "Cotización · Landing + Catálogo digital",
+    "description": "Presupuesto por piezas: se marca lo que entra y el total se recalcula solo."
+  },
+  "settings": {
+    "validityDays": 15,
+    "quotePrefix": "FT",
+    "preparedBy": "Freddy Tacuri",
+    "client": "Palsabi · Librería Cristiana",
+    "subject": "Landing + Catálogo digital",
+    "pricing": {
+      "source": "Notion · Tarifas — Landing Pages y Sistemas",
+      "anchorHourly": 15,
+      "updated": "2026-08-12"
+    }
+  },
+  "phases": [
+    {
+      "id": "landing",
+      "name": "Fase 1 · Landing",
+      "note": "El cliente entrega los textos y las imágenes. Se realizan dos rondas de revisión por sección.",
+      "items": [
+        {
+          "kind": "toggle",
+          "id": "landing-base",
+          "name": "Landing de presentación",
+          "initial": true,
+          "description": "Incluye 5 secciones: portada, quiénes somos, selección destacada, catálogo y sección de cierre con redirección a WhatsApp — más cabecera y pie. El texto final se define con el cliente, con ajustes finales y publicación en la web.",
+          "price": 240
+        },
+        {
+          "kind": "counter",
+          "id": "paginas-extra",
+          "name": "Subpágina",
+          "initial": 0,
+          "min": 0,
+          "max": 4,
+          "requires": "landing-base",
+          "unit": {
+            "singular": "página",
+            "plural": "páginas"
+          },
+          "description": "Una página adicional accesible desde el menú. Incluye hasta 3 secciones. Si se requieren más secciones, se agregan en el ítem siguiente.",
+          "pricePerUnit": 75
+        },
+        {
+          "kind": "counter",
+          "id": "secciones-extra",
+          "name": "Sección informativa adicional",
+          "initial": 0,
+          "min": 0,
+          "max": 6,
+          "requires": "landing-base",
+          "unit": {
+            "singular": "sección",
+            "plural": "secciones"
+          },
+          "description": "Una sección con texto, imágenes y diseño propio.",
+          "pricePerUnit": 35
+        }
+      ]
+    },
+    {
+      "id": "catalogo",
+      "name": "Fase 2 · Catálogo digital",
+      "items": [
+        {
+          "kind": "toggle",
+          "id": "catalogo-base",
+          "name": "Catálogo público",
+          "initial": true,
+          "description": "Buscador, filtros por categoría, ficha de cada libro, estados de stock y pedido por WhatsApp — con datos reales en base de datos, no de muestra.",
+          "variants": {
+            "carga-panel": "Los libros los cargan y actualizan ustedes desde el panel.",
+            "carga-planilla": "Los libros salen de una planilla que ustedes editan.",
+            "carga-inicial": "Los libros los dejo cargados yo una vez; después el catálogo queda fijo."
+          },
+          "price": 600
+        },
+        {
+          "kind": "choice",
+          "id": "carga",
+          "question": "¿Cómo entran y se actualizan los libros?",
+          "initial": "carga-panel",
+          "requires": "catalogo-base",
+          "options": [
+            {
+              "id": "carga-panel",
+              "name": "Panel de administración",
+              "recommended": true,
+              "description": "Cuentas para 2 administradores, formulario de ingreso de libros (foto, título, autor, categoría, precio, stock) y vista de inventario. Autonomía total: ingreso, edición y eliminación sin depender del desarrollador.",
+              "price": 480
+            },
+            {
+              "id": "carga-planilla",
+              "name": "Planilla de Google Sheets",
+              "description": "Documento compartido en Google Sheets en el cual los administradores pueden editar los datos. La planilla se sincroniza con el catálogo automáticamente, sin intervención del desarrollador. No incluye subida de fotos: las imágenes se cargan a la nube aparte y se pegan los enlaces en la planilla.",
+              "price": 180
+            },
+            {
+              "id": "carga-inicial",
+              "name": "Catálogo fijo",
+              "description": "Carga realizada por el desarrollador (50 libros) una sola vez, con los libros que el cliente proporcione. Después el catálogo queda fijo: no hay panel ni planilla para actualizarlo.",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "kind": "toggle",
+          "id": "pdf",
+          "name": "Catálogo en PDF",
+          "initial": false,
+          "requires": "catalogo-base",
+          "description": "Generación de un documento PDF descargable con los libros de una categoría o de una colección determinada. El documento se sincroniza automáticamente con el catálogo. El PDF se puede descargar desde el catálogo o enviarse por WhatsApp.",
+          "price": 130
+        },
+        {
+          "kind": "toggle",
+          "id": "enlaces",
+          "name": "Enlaces compartibles",
+          "initial": false,
+          "requires": "catalogo-base",
+          "description": "Enlaces individuales del catálogo clasificados por categoría o por colección.",
+          "price": 90
+        },
+        {
+          "kind": "toggle",
+          "id": "extras",
+          "name": "Etiquetas y contador de pedidos",
+          "initial": false,
+          "requires": "catalogo-base",
+          "description": "Etiquetas «Nuevo» y «Recomendado» para destacar títulos dentro del catálogo, y un registro del número de veces que cada libro fue solicitado por WhatsApp.",
+          "price": 60
+        }
+      ]
+    },
+    {
+      "id": "postventa",
+      "name": "Post-venta",
+      "items": [
+        {
+          "kind": "counter",
+          "id": "bolsa-soporte",
+          "name": "Servicio de soporte por hora",
+          "initial": 0,
+          "min": 0,
+          "max": 40,
+          "unit": {
+            "singular": "hora",
+            "plural": "horas"
+          },
+          "description": "Cambios de texto y ajustes menores posteriores a la publicación. Se acuerda una reunión para programar el trabajo y se descuenta según las horas efectivamente utilizadas.",
+          "pricePerUnit": 30
+        }
+      ]
+    }
+  ],
+  "recurringCosts": [
+    "Dominio: aproximadamente $25 al año, contratado a nombre del cliente.",
+    "Hosting y base de datos: el catálogo con panel de administración requiere un servidor activo. Se contrata a nombre del cliente y se factura mensualmente. El valor depende del mercado."
+  ],
+  "notIncluded": [
+    "Redacción de textos y sesión fotográfica.",
+    "Carga de contenido, salvo que se contrate la carga inicial realizada por el desarrollador.",
+    "Pasarela de pagos y funcionalidades de tienda en línea.",
+    "Posicionamiento en buscadores y campañas de publicidad."
+  ],
+  "ui": {
+    "back": "Volver",
+    "eyebrow": "Presupuesto por piezas",
+    "intro": "Cada pieza es independiente: suma lo que quieras y quita lo que no. El total de abajo se recalcula según lo marcado.",
+    "readonlyNotice": "Vista de solo lectura: la selección viene fijada en el enlace.",
+    "requires": "Necesita",
+    "chooseOne": "Elige una",
+    "recommended": "Recomendada",
+    "each": "c/u",
+    "partSingular": "pieza elegida",
+    "partPlural": "piezas elegidas",
+    "addUnit": "Agregar",
+    "removeUnit": "Quitar",
+    "totalLabel": "Total estimado",
+    "print": "Impresión de propuesta",
+    "save": "Guardar selección",
+    "saveDone": "Selección guardada en el enlace",
+    "saveFallback": "Copia el enlace de la barra de direcciones",
+    "saveEmpty": "No hay piezas seleccionadas",
+    "recurringTitle": "Costos adicionales externos",
+    "notIncludedTitle": "Lo que este presupuesto no incluye",
+    "scheduleNote": "El cronograma se acuerda al aprobar la propuesta y depende de los tiempos de revisión del cliente. La producción se ejecuta en días hábiles."
+  },
+  "document": {
+    "title": "Cotización",
+    "preparedFor": "Preparado para",
+    "preparedBy": "Preparado por",
+    "issuedOn": "Fecha de emisión",
+    "validity": "Validez",
+    "validityValue": "días desde la emisión",
+    "colConcept": "Concepto",
+    "colAmount": "Valor",
+    "subtotal": "Subtotal",
+    "total": "Total estimado",
+    "signClient": "Por el cliente",
+    "signDeveloper": "Por el desarrollador"
+  }
+}

@@ -1,0 +1,90 @@
+---
+/*
+  Cabecera del cotizador: salida a la landing, marca de Aether Tech y el mismo
+  interruptor de tema. La marca es un logotipo tipográfico por ahora —
+  reemplazar por el isotipo real (engranaje + ala) en cuanto se tenga el
+  archivo, ver public/favicon.svg para la misma nota.
+*/
+import ThemeToggle from '../../../shared/components/ThemeToggle.astro';
+
+interface Props {
+  back: string;
+  backHref: string;
+  themeAria: string;
+  themeDark: string;
+  themeLight: string;
+}
+
+const { back, backHref, themeAria, themeDark, themeLight } = Astro.props;
+---
+
+<header class="cl-header">
+  <a class="cl-back" href={backHref}>
+    <span aria-hidden="true">&#8592;</span>
+    <span>{back}</span>
+  </a>
+
+  <p class="cl-brand" aria-hidden="true">
+    <span class="cl-brand__aether">AETHER</span><span class="cl-brand__tech">TECH</span>
+  </p>
+
+  <ThemeToggle ariaLabel={themeAria} darkLabel={themeDark} lightLabel={themeLight} />
+</header>
+
+<style>
+  .cl-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    background: var(--cl-bg);
+    border-bottom: var(--cl-rule) solid var(--cl-divider);
+    transition: background-color 0.3s ease;
+  }
+
+  .cl-back {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px var(--cl-pad);
+    color: var(--cl-muted);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .cl-back:hover {
+    color: var(--cl-ink);
+  }
+
+  .cl-brand {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0 var(--cl-pad);
+    font-family: var(--cl-font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .cl-brand__aether {
+    color: var(--cl-ink);
+  }
+
+  .cl-brand__tech {
+    color: var(--cl-accent);
+  }
+
+  /* En pantallas angostas el nombre completo compite con volver/tema. */
+  @media (max-width: 420px) {
+    .cl-brand {
+      display: none;
+    }
+  }
+</style>

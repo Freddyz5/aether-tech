@@ -1,0 +1,253 @@
+---
+/*
+  Adaptado de portafolio/src/shared/layout/CommercialLayout.astro. Misma idea:
+  reset, tokens --cl-* y arranque del tema en un único archivo que no depende
+  del layout de ningún otro sitio. Lo que cambia aquí es la paleta (navy +
+  dorado, tomada de los flyers de Aether Tech en vez del naranja del
+  portafolio) y que el sitio es monolingüe: no hay prop `lang` variable, sólo
+  español.
+*/
+import '@fontsource-variable/orbitron';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+}
+
+const { title, description, url } = Astro.props;
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f1638" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f4f5fa" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href={`${BASE_URL}favicon.svg`} />
+
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    {/* Se resuelve antes de pintar para que el tema guardado no llegue tarde. */}
+    <script is:inline>
+      (() => {
+        let saved = null;
+        try { saved = localStorage.getItem('cl-theme'); } catch (e) {}
+        if (saved !== 'light' && saved !== 'dark') {
+          saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.dataset.clTheme = saved;
+      })();
+    </script>
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* ===== TOKENS --cl-* =====
+     Paleta Aether Tech: navy de los flyers como base y dorado como acento.
+     Sólo se emiten en esta ruta: ningún otro documento importa este layout. */
+  :root {
+    --cl-bg: #0f1638;
+    --cl-surface: #1a2456;
+    --cl-ink: #f5f6fb;
+    --cl-muted: #a7add1;
+    --cl-divider: color-mix(in srgb, #f5f6fb 40%, transparent);
+    --cl-accent: #f2b705;
+    --cl-accent-press: #d69f00;
+    --cl-accent-deep: #d69f00;
+    --cl-accent-text: #f2b705;
+    --cl-on-accent: #0f1638;
+
+    --cl-font-display: 'Orbitron Variable', sans-serif;
+    --cl-font-body: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+
+    --cl-rule: 2px;
+    --cl-pad: 20px;
+    --cl-measure: 760px;
+
+    color-scheme: dark;
+  }
+
+  :root[data-cl-theme='light'] {
+    --cl-bg: #f4f5fa;
+    --cl-surface: #e7e9f5;
+    --cl-ink: #0f1638;
+    --cl-muted: #4d5480;
+    --cl-divider: color-mix(in srgb, #0f1638 40%, transparent);
+    --cl-accent: #f2b705;
+    --cl-accent-press: #d69f00;
+    --cl-accent-deep: #6b4a00;
+    /* El dorado claro (#f2b705) alcanza para botones y titulares grandes, pero
+       no para etiquetas de 11-13px sobre el fondo claro. Esas usan el tono
+       profundo, más oscuro, igual que el acento rojo lo hacía en el original. */
+    --cl-accent-text: #6b4a00;
+    --cl-on-accent: #0f1638;
+
+    color-scheme: light;
+  }
+
+  /* Antes de que corra el script: respeta la preferencia del sistema. */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-cl-theme='dark']) {
+      --cl-bg: #f4f5fa;
+      --cl-surface: #e7e9f5;
+      --cl-ink: #0f1638;
+      --cl-muted: #4d5480;
+      --cl-divider: color-mix(in srgb, #0f1638 40%, transparent);
+      --cl-accent: #f2b705;
+      --cl-accent-press: #d69f00;
+      --cl-accent-deep: #6b4a00;
+      --cl-accent-text: #6b4a00;
+      --cl-on-accent: #0f1638;
+
+      color-scheme: light;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--cl-bg);
+    color: var(--cl-ink);
+    font-family: var(--cl-font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  a {
+    color: var(--cl-accent-deep);
+  }
+
+  a:hover {
+    color: var(--cl-ink);
+  }
+
+  ::selection {
+    background: var(--cl-accent);
+    color: var(--cl-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--cl-accent);
+    outline-offset: 2px;
+  }
+
+  /* ===== PIEZAS COMPARTIDAS =====
+     Botón de acción y banda de título: aparecen en más de una sección, así que
+     viven aquí y no duplicados en cada componente. */
+  .cl-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 56px;
+    padding: 16px var(--cl-pad);
+    font-family: var(--cl-font-display);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-wrap: balance;
+  }
+
+  .cl-btn--accent {
+    background: var(--cl-accent);
+    color: var(--cl-on-accent);
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+  }
+
+  .cl-btn--accent:hover {
+    background: var(--cl-accent-press);
+    color: var(--cl-on-accent);
+  }
+
+  .cl-btn--ghost {
+    background: transparent;
+    border: var(--cl-rule) solid var(--cl-divider);
+    color: var(--cl-ink);
+    font-weight: 500;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .cl-btn--ghost:hover {
+    border-color: var(--cl-accent);
+    background: var(--cl-surface);
+    color: var(--cl-ink);
+  }
+
+  .cl-btn--invert {
+    background: var(--cl-on-accent);
+    color: var(--cl-accent);
+    font-weight: 700;
+    transition: opacity 0.2s ease;
+  }
+
+  .cl-btn--invert:hover {
+    opacity: 0.88;
+    color: var(--cl-accent);
+  }
+
+  .cl-section-title {
+    margin: 0;
+    padding: var(--cl-pad);
+    font-family: var(--cl-font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-bottom: var(--cl-rule) solid var(--cl-divider);
+  }
+
+  @keyframes cl-rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
