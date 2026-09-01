@@ -1,0 +1,23 @@
+---
+/* Bloque de condiciones. Los presupuestos se pelean por lo que no dicen. */
+interface Props {
+  title: string;
+  points: string[];
+}
+
+const { title, points } = Astro.props;
+---
+
+<div class="bp-card bp-conditions__card">
+  <div class="bp-conditions__title">{title}</div>
+  <ul class="bp-conditions__list">
+    {
+      points.map((point) => (
+        <li class="bp-conditions__item">
+          <span class="bp-conditions__dash" aria-hidden="true" />
+          <span class="bp-conditions__text">{point}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

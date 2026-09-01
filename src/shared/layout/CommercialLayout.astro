@@ -1,0 +1,175 @@
+---
+/*
+  Reescrito a partir del diseño "Cotizacion Aether Tech.dc.html" (Claude
+  Design): estética "blueprint" — navy + dorado, marcas de esquina, grilla
+  punteada, Barlow/Barlow Condensed. El mockup trae un solo look, no dos
+  (claro/oscuro), así que a diferencia de la versión anterior aquí no hay
+  selector de tema ni tokens --cl-*: los nombres de variable son los mismos
+  que trae el diseño (--at-*, --color-*) para que el mapeo quede 1 a 1.
+*/
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow-condensed/400.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+}
+
+const { title, description, url } = Astro.props;
+const BASE_URL = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e6eaf0" />
+    <link rel="icon" type="image/svg+xml" href="/public/logo.png" />
+
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* ===== TOKENS =====
+     Mismos nombres que el archivo .dc.html de origen: --at-* para la marca,
+     --color-* para lo estructural. Un solo tema — el diseño no trae otro. */
+  :root {
+    --color-bg: #e6eaf0;
+    --color-surface: #fdfdfc;
+    --color-text: #0d2149;
+    --color-divider: #c3cbd6;
+    --color-accent: #f2b705;
+
+    --at-navy: #0d2149;
+    --at-navy-deep: #08152f;
+    --at-gold: #f2b705;
+    --at-gold-hi: #ffca2c;
+    --at-paper: #ffffff;
+    --at-plate: #dfe4ec;
+    --at-board: #dbe1ea;
+    --at-muted: #5a6a80;
+    --at-muted-soft: #7b889b;
+    --at-ink: #b9c6da;
+    --at-mark: color-mix(in srgb, #0d2149 45%, transparent);
+
+    --font-heading: 'Barlow Condensed', system-ui, sans-serif;
+    --font-body: 'Barlow', system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --measure: 900px;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /*
+    Sin esto, un <button> se pinta como widget nativo del sistema en vez de
+    con el CSS de la página — en pantalla casi no se nota, pero al imprimir
+    (sobre todo en Safari/WebKit) el texto propio no se compone sobre el
+    control nativo y la pieza sale en blanco. Todas las piezas del cotizador
+    (.bp-card interactivo, los pasos del contador, las acciones) son
+    <button>, así que este reset es obligatorio, no cosmético.
+  */
+  button {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+    /*
+      Grilla "blueprint": puntos gruesos cada 48px sobre una malla fina de
+      16px. Cubre toda la página —cabecera incluida— porque en el diseño es
+      un único fondo, no una franja del hero.
+    */
+    background-image:
+      radial-gradient(circle, color-mix(in srgb, var(--at-navy) 16%, transparent) 1.1px, transparent 1.6px),
+      linear-gradient(color-mix(in srgb, var(--at-navy) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--at-navy) 5%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px, 16px 16px, 16px 16px;
+    background-position: -4px -4px, 0 0, 0 0;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--at-navy);
+  }
+
+  a:hover {
+    color: #c99400;
+  }
+
+  ::selection {
+    background: var(--at-gold);
+    color: var(--at-navy-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--at-gold);
+    outline-offset: 2px;
+  }
+
+  @media print {
+    body {
+      background: var(--at-paper);
+    }
+    [data-noprint] {
+      display: none !important;
+    }
+    /*
+      Por defecto varios navegadores omiten los colores de fondo al imprimir
+      para ahorrar tinta. Las etiquetas M0-M3, la casilla dorada y el hero
+      navy dependen de su fondo para leerse — sin esto salen en blanco.
+    */
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

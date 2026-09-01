@@ -1,0 +1,64 @@
+---
+/*
+  Grupo excluyente: hay que elegir una alternativa. role="radiogroup" +
+  role="radio" es lo que la interacción realmente es, y el lector de pantalla
+  anuncia «1 de 3». El tablero (fondo punteado + borde navy) es el
+  contenedor "board" del diseño; cada alternativa es una .bp-card con marca
+  de esquina, igual que las piezas normales.
+*/
+import type { ChoiceGroup } from '../core/types';
+
+interface Props {
+  item: ChoiceGroup;
+  requiresLabel: string;
+  requiresName: string;
+  chooseOne: string;
+  recommended: string;
+}
+
+const { item, requiresLabel, requiresName, chooseOne, recommended } = Astro.props;
+---
+
+<div class="bp-board" data-piece="choice" data-id={item.id}>
+  <div class="bp-board__head">
+    <p class="bp-board__question" id={`choice-${item.id}`}>{item.question}</p>
+    <p class="bp-board__hint">{chooseOne}</p>
+  </div>
+
+  {
+    item.requires && (
+      <p class="bp-board__lock" data-lock hidden>
+        {requiresLabel}: {requiresName}
+      </p>
+    )
+  }
+
+  <div class="bp-board__options" role="radiogroup" aria-labelledby={`choice-${item.id}`}>
+    {
+      item.options.map((option) => (
+        <button
+          type="button"
+          class="bp-card bp-card--interactive bp-card--option"
+          role="radio"
+          aria-checked="false"
+          data-option
+          data-group={item.id}
+          data-id={option.id}
+        >
+          <span class="bp-card__row">
+            <span class="bp-dot" aria-hidden="true">
+              <span class="bp-dot__fill" />
+            </span>
+            <span class="bp-card__name">
+              {option.tag && <span class="bp-card__tag">{option.tag}</span>}
+              {option.name}
+            </span>
+            {option.recommended && <span class="bp-badge">{recommended}</span>}
+            <span class="bp-card__price" data-line-price />
+          </span>
+          <p class="bp-card__desc">{option.description}</p>
+        </button>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,23 @@
+---
+/*
+  Cabecera: "Volver" + lockup de marca (marca AT, nombre, tagline). No es
+  sticky en el diseño de origen — se desplaza con la página, a diferencia de
+  la versión anterior. Sin selector de tema: el mockup no trae ninguno.
+*/
+interface Props {
+  back: string;
+  backHref: string;
+}
+
+const { back, backHref } = Astro.props;
+---
+
+<header class="bp-header">
+  <div class="bp-brand">
+    <div class="bp-brand__mark" aria-hidden="true"><img src="/public/logo.png" width="35" height="35" alt="Aether Tech" /></div>
+    <div>
+      <div class="bp-brand__name">Aether Tech</div>
+      <div class="bp-brand__tagline">Robótica · Ciencia · Tecnología</div>
+    </div>
+  </div>
+</header>

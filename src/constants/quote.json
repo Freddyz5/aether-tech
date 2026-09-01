@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "title": "Cotización · Sitio web Aether Tech",
+    "description": "Presupuesto por piezas: se marca lo que entra y el total se recalcula solo."
+  },
+  "settings": {
+    "validityDays": 15,
+    "quotePrefix": "FT",
+    "preparedBy": "Freddy Tacuri",
+    "client": "Aether Tech",
+    "subject": "Sitio web — landing, portafolio, auspiciantes y servicios",
+    "pricing": {
+      "source": "Estimado interno · sin tarifas reales de Aether Tech todavía, ajustar",
+      "anchorHourly": 15,
+      "updated": "2026-08-29"
+    }
+  },
+  "phases": [
+    {
+      "id": "fase1",
+      "name": "Fase 1 • Landing",
+      "note": "El cliente entrega los textos y las imágenes. Se realizan dos rondas de revisión por sección.",
+      "items": [
+        {
+          "kind": "toggle",
+          "id": "f0-landing",
+          "tag": "F0",
+          "name": "Landing de presentación",
+          "initial": true,
+          "description": "Incluye 3 secciones: Portada, quiénes somos / qué hacen y contacto (WhatsApp, redes y ubicación en Latacunga) — más cabecera y pie. El texto final se define junto con el cliente, con ajustes y publicación incluidos.",
+          "price": 80
+        },
+        {
+          "kind": "counter",
+          "id": "paginas-extra",
+          "tag": "F0.1",
+          "name": "Subpágina",
+          "initial": 0,
+          "min": 0,
+          "max": 4,
+          "requires": "f0-landing",
+          "unit": {
+            "singular": "página",
+            "plural": "páginas"
+          },
+          "description": "Una página adicional accesible desde el menú. Incluye hasta 3 secciones. Si se requieren más secciones, se agregan en el ítem siguiente.",
+          "pricePerUnit": 60
+        },
+        {
+          "kind": "counter",
+          "id": "secciones-extra",
+          "tag": "F0.2",
+          "name": "Sección informativa adicional",
+          "initial": 0,
+          "min": 0,
+          "max": 6,
+          "requires": "f0-landing",
+          "unit": {
+            "singular": "sección",
+            "plural": "secciones"
+          },
+          "description": "Una sección con texto, imágenes y diseño propio.",
+          "pricePerUnit": 30
+        }
+      ]
+    },
+    {
+      "id": "fase2",
+      "name": "Fase 2 • Portafolio de robots",
+      "items": [
+        {
+          "kind": "toggle",
+          "id": "f2-portafolio",
+          "tag": "F2",
+          "name": "Portafolio de prototipos",
+          "initial": false,
+          "description": "Galería con robots del club: fotos, nombre, categoría y especificaciones técnicas. Incluye hasta 4 prototipos.",
+          "price": 70
+        },
+        {
+          "kind": "counter",
+          "id": "f2-robot-extra",
+          "tag": "F2.1",
+          "name": "Prototipo adicional",
+          "initial": 0,
+          "min": 0,
+          "max": 20,
+          "requires": "f2-portafolio",
+          "unit": {
+            "singular": "prototipo",
+            "plural": "prototipos"
+          },
+          "description": "Un prototipo más en el portafolio, más allá de los 4 incluidos: ficha con fotos y especificaciones.",
+          "pricePerUnit": 20
+        }
+    ]
+    },
+    {
+      "id": "fase3",
+      "name": "Fase 3 • Página de auspiciantes",
+      "items": [
+        {
+          "kind": "toggle",
+          "id": "f3-auspiciantes",
+          "tag": "F3",
+          "name": "Página de auspiciantes",
+          "initial": false,
+          "description": "Sección con logos y niveles de auspicio, agradecimientos, y un expediente del club descargable en PDF (quiénes son, logros, cómo auspiciar) sincronizado con la página.",
+          "price": 90
+        }
+      ]
+    },
+    {
+      "id": "fase4",
+      "name": "Fase 4 • Servicios",
+      "items": [
+        {
+          "kind": "toggle",
+          "id": "f4-servicios",
+          "tag": "F4",
+          "name": "Servicios de robótica",
+          "initial": false,
+          "description": "Catálogo de servicios (asesoría de proyectos, diseño y construcción de robots, arbitraje de competencias) con formulario de contacto que llega directo por correo o WhatsApp.",
+          "price": 90
+        }
+      ]
+    },
+    {
+      "id": "postventa",
+      "name": "Post-venta",
+      "items": [
+        {
+          "kind": "counter",
+          "id": "bolsa-soporte",
+          "tag": "P1",
+          "name": "Servicio de soporte por hora",
+          "initial": 0,
+          "min": 0,
+          "max": 40,
+          "unit": {
+            "singular": "hora",
+            "plural": "horas"
+          },
+          "description": "Cambios de texto y ajustes menores posteriores a la publicación. Se acuerda una reunión para programar el trabajo y se descuenta según las horas efectivamente utilizadas.",
+          "pricePerUnit": 15
+        }
+      ]
+    }
+  ],
+  "recurringCosts": [
+    "Dominio: aproximadamente $25 al año, contratado a nombre de Aether Tech.",
+    "Hosting: la landing, el portafolio y la página de auspiciantes son páginas estáticas y no requieren servidor pago. El formulario de contacto de Servicios de robótica puede necesitar un servicio externo con plan gratuito limitado; si el volumen crece, tiene un costo aparte."
+  ],
+  "notIncluded": [
+    "Fotografía de los robots y redacción de las especificaciones técnicas.",
+    "Diseño del isotipo definitivo de Aether Tech (hoy el sitio usa un logotipo provisional, ver cabecera).",
+    "Mantenimiento y cambios posteriores a la entrega, salvo que se contrate la bolsa de soporte.",
+    "Posicionamiento en buscadores y campañas de publicidad."
+  ],
+  "ui": {
+    "back": "Volver",
+    "eyebrow": "Presupuesto por piezas",
+    "intro": "Cada pieza es independiente: suma lo que quieras y quita lo que no. El total de abajo se recalcula según lo marcado.",
+    "readonlyNotice": "Vista de solo lectura: la selección viene fijada en el enlace.",
+    "requires": "Necesita",
+    "chooseOne": "Elige una",
+    "recommended": "Recomendada",
+    "each": "c/u",
+    "partSingular": "pieza elegida",
+    "partPlural": "piezas elegidas",
+    "addUnit": "Agregar",
+    "removeUnit": "Quitar",
+    "totalLabel": "Total estimado",
+    "print": "Impresión de propuesta",
+    "save": "Guardar selección",
+    "saveDone": "Selección guardada en el enlace",
+    "saveFallback": "Copia el enlace de la barra de direcciones",
+    "saveEmpty": "No hay piezas seleccionadas",
+    "recurringTitle": "Costos adicionales externos",
+    "notIncludedTitle": "Lo que este presupuesto no incluye",
+    "scheduleNote": "El cronograma se acuerda al aprobar la propuesta y depende de los tiempos de revisión del cliente. La producción se ejecuta en días hábiles.",
+    "validityTitle": "Validez de la cotización",
+    "validitySuffix": "días desde la fecha de emisión"
+  }
+}

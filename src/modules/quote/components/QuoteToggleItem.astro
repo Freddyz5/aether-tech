@@ -1,0 +1,55 @@
+---
+/*
+  Pieza que entra o no entra. <button aria-pressed> real, no un div con
+  listener. El precio de línea y el estado los rellena el controlador
+  (core/controller.ts) vía [data-line-price] / .is-on — este componente no
+  cambió esos ganchos, sólo el marcado alrededor.
+*/
+import type { ToggleItem } from '../core/types';
+
+interface Props {
+  item: ToggleItem;
+  requiresLabel: string;
+  requiresName: string;
+}
+
+const { item, requiresLabel, requiresName } = Astro.props;
+---
+
+<button
+  type="button"
+  class="bp-card bp-card--interactive"
+  data-piece="toggle"
+  data-id={item.id}
+  aria-pressed="false"
+>
+  <span class="bp-card__row">
+    <span class="bp-box" aria-hidden="true"></span>
+    <span class="bp-card__name">
+      {item.tag && <span class="bp-card__tag">{item.tag}</span>}
+      {item.name}
+    </span>
+    <span class="bp-card__price" data-line-price></span>
+  </span>
+
+  <p class="bp-card__desc">
+    {item.description}
+    {
+      item.variants &&
+        Object.entries(item.variants).map(([optionId, text]) => (
+          <span class="bp-card__variant" data-variant={optionId} hidden>
+            {' '}
+            {text}
+          </span>
+        ))
+    }
+  </p>
+
+  {
+    item.requires && (
+      <span class="bp-card__lock" data-lock hidden>
+        {requiresLabel}: {requiresName}
+      </span>
+    )
+  }
+</button>

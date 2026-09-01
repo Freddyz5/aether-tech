@@ -1,0 +1,53 @@
+---
+/*
+  Pieza de cantidad variable. El valor va en un <output aria-live="polite">
+  para que el lector de pantalla cante el cambio sin mover el foco.
+*/
+import type { CounterItem } from '../core/types';
+
+interface Props {
+  item: CounterItem;
+  requiresLabel: string;
+  requiresName: string;
+  addLabel: string;
+  removeLabel: string;
+}
+
+const { item, requiresLabel, requiresName, addLabel, removeLabel } = Astro.props;
+---
+
+<div class="bp-card" data-piece="counter" data-id={item.id}>
+  <span class="bp-card__row">
+    <span class="bp-card__name">
+      {item.tag && <span class="bp-card__tag">{item.tag}</span>}
+      {item.name}
+    </span>
+    <span class="bp-card__price" data-line-price></span>
+  </span>
+
+  <p class="bp-card__desc bp-card__desc--tight" style="margin-left: 0;">{item.description}</p>
+
+  {
+    item.requires && (
+      <span class="bp-card__lock" data-lock hidden style="margin-left: 0;">
+        {requiresLabel}: {requiresName}
+      </span>
+    )
+  }
+
+  <span class="bp-counter">
+    <button
+      type="button"
+      class="bp-counter__step"
+      data-step="-1"
+      aria-label={`${removeLabel} ${item.unit.singular}`}
+    >&#8722;</button>
+    <output class="bp-counter__value" data-counter-value aria-live="polite">{item.initial}</output>
+    <button
+      type="button"
+      class="bp-counter__step"
+      data-step="1"
+      aria-label={`${addLabel} ${item.unit.singular}`}
+    >+</button>
+  </span>
+</div>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    Favicon provisional: monograma "A" dorado sobre navy, mismos tonos que
+    --cl-bg/--cl-accent de CommercialLayout. Reemplazar por el isotipo real
+    (engranaje + ala) en cuanto se tenga el archivo de marca.
+  -->
+  <rect width="64" height="64" rx="12" fill="#0f1638" />
+  <path
+    d="M32 14 L14 50 M32 14 L50 50 M22 38 L42 38"
+    fill="none"
+    stroke="#f2b705"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
