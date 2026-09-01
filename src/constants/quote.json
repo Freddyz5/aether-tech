@@ -28,7 +28,7 @@
           "name": "Landing de presentación",
           "initial": true,
           "description": "Incluye 3 secciones: Portada, quiénes somos / qué hacen y contacto (WhatsApp, redes y ubicación en Latacunga) — más cabecera y pie. El texto final se define junto con el cliente, con ajustes y publicación incluidos.",
-          "price": 80
+          "price": 120
         },
         {
           "kind": "counter",
@@ -44,7 +44,7 @@
             "plural": "páginas"
           },
           "description": "Una página adicional accesible desde el menú. Incluye hasta 3 secciones. Si se requieren más secciones, se agregan en el ítem siguiente.",
-          "pricePerUnit": 60
+          "pricePerUnit": 100
         },
         {
           "kind": "counter",
@@ -60,7 +60,7 @@
             "plural": "secciones"
           },
           "description": "Una sección con texto, imágenes y diseño propio.",
-          "pricePerUnit": 30
+          "pricePerUnit": 40
         }
       ]
     },
@@ -75,7 +75,7 @@
           "name": "Portafolio de prototipos",
           "initial": false,
           "description": "Galería con robots del club: fotos, nombre, categoría y especificaciones técnicas. Incluye hasta 4 prototipos.",
-          "price": 70
+          "price": 100
         },
         {
           "kind": "counter",
@@ -91,7 +91,7 @@
             "plural": "prototipos"
           },
           "description": "Un prototipo más en el portafolio, más allá de los 4 incluidos: ficha con fotos y especificaciones.",
-          "pricePerUnit": 20
+          "pricePerUnit": 40
         }
     ]
     },
@@ -106,7 +106,7 @@
           "name": "Página de auspiciantes",
           "initial": false,
           "description": "Sección con logos y niveles de auspicio, agradecimientos, y un expediente del club descargable en PDF (quiénes son, logros, cómo auspiciar) sincronizado con la página.",
-          "price": 90
+          "price": 100
         }
       ]
     },
@@ -121,7 +121,7 @@
           "name": "Servicios de robótica",
           "initial": false,
           "description": "Catálogo de servicios (asesoría de proyectos, diseño y construcción de robots, arbitraje de competencias) con formulario de contacto que llega directo por correo o WhatsApp.",
-          "price": 90
+          "price": 100
         }
       ]
     },
