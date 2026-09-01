@@ -18,6 +18,17 @@ interface Props {
 const { totalLabel, print, save, scheduleNote, validityTitle, validityValue } = Astro.props;
 ---
 
+<div class="bp-totalbar" data-noprint="1">
+  <div class="bp-totalbar__inner">
+    <div>
+      <p class="bp-totalbar__label">{totalLabel}</p>
+      <p class="bp-totalbar__amount" data-total-amount aria-live="polite"></p>
+    </div>
+    <span class="bp-totalbar__spacer"></span>
+    <p class="bp-totalbar__count" data-total-count></p>
+  </div>
+</div>
+
 <div class="bp-validity">
   <span class="bp-validity__title">{validityTitle}</span>
   <span class="bp-validity__rule" aria-hidden="true"></span>
@@ -32,14 +43,3 @@ const { totalLabel, print, save, scheduleNote, validityTitle, validityValue } = 
 </div>
 
 <p class="bp-schedule">{scheduleNote}</p>
-
-<div class="bp-totalbar" data-noprint="1">
-  <div class="bp-totalbar__inner">
-    <div>
-      <p class="bp-totalbar__label">{totalLabel}</p>
-      <p class="bp-totalbar__amount" data-total-amount aria-live="polite"></p>
-    </div>
-    <span class="bp-totalbar__spacer"></span>
-    <p class="bp-totalbar__count" data-total-count></p>
-  </div>
-</div>

@@ -653,14 +653,14 @@ button.bp-card--interactive:hover:not(:disabled) {
 /* ===== Barra de total (fija) ===== */
 
 .bp-totalbar {
-  position: fixed;
+  position: sticky;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 5;
   display: flex;
   justify-content: center;
-  padding: 0 24px 22px;
+  padding: 28px 0 22px;
   pointer-events: none;
 }
 
