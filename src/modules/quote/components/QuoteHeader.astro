@@ -13,13 +13,8 @@ const { back, backHref } = Astro.props;
 ---
 
 <header class="bp-header">
-  <a class="bp-back" href={backHref} data-noprint="1">
-    <span class="bp-back__arrow" aria-hidden="true">&#8592;</span>
-    <span>{back}</span>
-  </a>
-
   <div class="bp-brand">
-    <div class="bp-brand__mark" aria-hidden="true">AT</div>
+    <div class="bp-brand__mark" aria-hidden="true"><img src="/public/logo.png" width="35" height="35" alt="Aether Tech" /></div>
     <div>
       <div class="bp-brand__name">Aether Tech</div>
       <div class="bp-brand__tagline">Robótica · Ciencia · Tecnología</div>

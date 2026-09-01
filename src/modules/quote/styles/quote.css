@@ -46,12 +46,14 @@
 .bp-back__arrow {
   font-size: 17px;
   line-height: 1;
+  padding: 0 18px;
 }
 
 .bp-brand {
   display: flex;
   align-items: center;
   gap: 12px;
+  padding: 0 18px;
 }
 
 .bp-brand__mark {

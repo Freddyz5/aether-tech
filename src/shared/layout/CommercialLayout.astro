@@ -30,7 +30,7 @@ const BASE_URL = import.meta.env.BASE_URL;
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#e6eaf0" />
-    <link rel="icon" type="image/svg+xml" href={`${BASE_URL}favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href="/public/logo.png" />
 
     <meta property="og:url" content={url} />
     <meta property="og:type" content="website" />
@@ -80,6 +80,22 @@ const BASE_URL = import.meta.env.BASE_URL;
   *::before,
   *::after {
     box-sizing: border-box;
+  }
+
+  /*
+    Sin esto, un <button> se pinta como widget nativo del sistema en vez de
+    con el CSS de la página — en pantalla casi no se nota, pero al imprimir
+    (sobre todo en Safari/WebKit) el texto propio no se compone sobre el
+    control nativo y la pieza sale en blanco. Todas las piezas del cotizador
+    (.bp-card interactivo, los pasos del contador, las acciones) son
+    <button>, así que este reset es obligatorio, no cosmético.
+  */
+  button {
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
+    font: inherit;
+    color: inherit;
   }
 
   html {
@@ -133,6 +149,15 @@ const BASE_URL = import.meta.env.BASE_URL;
     }
     [data-noprint] {
       display: none !important;
+    }
+    /*
+      Por defecto varios navegadores omiten los colores de fondo al imprimir
+      para ahorrar tinta. Las etiquetas M0-M3, la casilla dorada y el hero
+      navy dependen de su fondo para leerse — sin esto salen en blanco.
+    */
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
 
