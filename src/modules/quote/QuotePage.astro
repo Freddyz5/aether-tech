@@ -7,11 +7,11 @@
   <script type="application/json"> para no serializar un objeto grande con
   define:vars.
 
-  A diferencia de la versión anterior, aquí NO hay una sección aparte
-  "sólo para pantalla" y un documento aparte "sólo para imprimir": el diseño
-  de origen imprime la misma vista, y sólo oculta con [data-noprint] la
-  cabecera y los botones de acción (ver CommercialLayout.astro y
-  QuoteSummary.astro).
+  Pantalla y papel son dos vistas del mismo cálculo. En pantalla manda la
+  herramienta por piezas; al imprimir sale QuoteDocument —membrete, número,
+  tabla de conceptos y firmas— y el cotizador entero se oculta. El corte lo
+  hace el bloque @media print de styles/quote.css, no un data-noprint por
+  sección: la regla es "de .bp-quote sólo se imprime .bp-doc".
 */
 import QuoteHeader from './components/QuoteHeader.astro';
 import QuoteToggleItem from './components/QuoteToggleItem.astro';
@@ -19,6 +19,7 @@ import QuoteCounterItem from './components/QuoteCounterItem.astro';
 import QuoteChoiceItem from './components/QuoteChoiceItem.astro';
 import QuoteConditions from './components/QuoteConditions.astro';
 import QuoteSummary from './components/QuoteSummary.astro';
+import QuoteDocument from './components/QuoteDocument.astro';
 import { indexQuote } from './core/quote';
 import type { QuoteData } from './core/types';
 import './styles/quote.css';
@@ -115,6 +116,8 @@ const validityValue = `${settings.validityDays} ${ui.validitySuffix}`;
     validityTitle={ui.validityTitle}
     validityValue={validityValue}
   />
+
+  <QuoteDocument data={data} />
 
   <script type="application/json" data-quote-data set:html={JSON.stringify(data)} is:inline />
 </main>

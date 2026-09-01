@@ -97,6 +97,8 @@ export interface QuoteData {
   recurringCosts: string[];
   notIncluded: string[];
   ui: Record<string, string>;
+  /* Rótulos de la propuesta impresa: sólo los ve el papel, no la pantalla. */
+  document: Record<string, string>;
 }
 
 /*

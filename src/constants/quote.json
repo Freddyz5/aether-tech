@@ -8,37 +8,37 @@
     "quotePrefix": "FT",
     "preparedBy": "Freddy Tacuri",
     "client": "Aether Tech",
-    "subject": "Sitio web — landing, portafolio, auspiciantes y servicios",
+    "subject": "Sitio web — presentación, kits, servicios y pedidos por WhatsApp",
     "pricing": {
-      "source": "Estimado interno · sin tarifas reales de Aether Tech todavía, ajustar",
+      "source": "Tarifas propias de Aether Tech · las piezas del catálogo se estiman sobre la misma escala",
       "anchorHourly": 15,
-      "updated": "2026-08-29"
+      "updated": "2026-09-01"
     }
   },
   "phases": [
     {
       "id": "fase1",
-      "name": "Fase 1 • Landing",
+      "name": "Fase 1 • Presentación",
       "note": "El cliente entrega los textos y las imágenes. Se realizan dos rondas de revisión por sección.",
       "items": [
         {
           "kind": "toggle",
-          "id": "f0-landing",
-          "tag": "F0",
+          "id": "f1-landing",
+          "tag": "F1",
           "name": "Landing de presentación",
           "initial": true,
-          "description": "Incluye 3 secciones: Portada, quiénes somos / qué hacen y contacto (WhatsApp, redes y ubicación en Latacunga) — más cabecera y pie. El texto final se define junto con el cliente, con ajustes y publicación incluidos.",
-          "price": 120
+          "description": "Incluye 4 secciones: portada, quiénes somos / qué hacen, llamado a la acción —Aether Tech como emprendimiento social: la causa, a quién beneficia y por qué comprar un kit o contratar un servicio la sostiene, con botón directo a WhatsApp— y contacto (WhatsApp, redes y ubicación en Latacunga), más cabecera y pie. El texto final se define junto con el cliente, con ajustes y publicación incluidos.",
+          "price": 150
         },
         {
           "kind": "counter",
           "id": "paginas-extra",
-          "tag": "F0.1",
+          "tag": "F1.1",
           "name": "Subpágina",
           "initial": 0,
           "min": 0,
           "max": 4,
-          "requires": "f0-landing",
+          "requires": "f1-landing",
           "unit": {
             "singular": "página",
             "plural": "páginas"
@@ -49,12 +49,12 @@
         {
           "kind": "counter",
           "id": "secciones-extra",
-          "tag": "F0.2",
+          "tag": "F1.2",
           "name": "Sección informativa adicional",
           "initial": 0,
           "min": 0,
           "max": 6,
-          "requires": "f0-landing",
+          "requires": "f1-landing",
           "unit": {
             "singular": "sección",
             "plural": "secciones"
@@ -66,61 +66,123 @@
     },
     {
       "id": "fase2",
-      "name": "Fase 2 • Portafolio de robots",
+      "name": "Fase 2 • Catálogo",
+      "note": "El pedido se solicita por WhatsApp: el sitio no cobra en línea. El precio y la disponibilidad se confirman en el chat.",
       "items": [
         {
           "kind": "toggle",
-          "id": "f2-portafolio",
+          "id": "catalogo-kits",
           "tag": "F2",
-          "name": "Portafolio de prototipos",
-          "initial": false,
-          "description": "Galería con robots del club: fotos, nombre, categoría y especificaciones técnicas. Incluye hasta 4 prototipos.",
-          "price": 100
+          "name": "Catálogo de kits",
+          "initial": true,
+          "description": "Buscador, filtros por categoría, ficha de cada kit (fotos, descripción, contenido, precio y disponibilidad) y botón «Pedir por WhatsApp» que abre el chat con el kit ya identificado en el mensaje.",
+          "variants": {
+            "carga-panel": "Los kits los cargan y actualizan ustedes desde el panel.",
+            "carga-planilla": "Los kits salen de una planilla que ustedes editan.",
+            "carga-inicial": "Los kits los dejo cargados yo una vez; después el catálogo queda fijo."
+          },
+          "price": 300
         },
         {
-          "kind": "counter",
-          "id": "f2-robot-extra",
-          "tag": "F2.1",
-          "name": "Prototipo adicional",
-          "initial": 0,
-          "min": 0,
-          "max": 20,
-          "requires": "f2-portafolio",
-          "unit": {
-            "singular": "prototipo",
-            "plural": "prototipos"
-          },
-          "description": "Un prototipo más en el portafolio, más allá de los 4 incluidos: ficha con fotos y especificaciones.",
-          "pricePerUnit": 40
+          "kind": "choice",
+          "id": "carga",
+          "question": "¿Cómo entran y se actualizan los kits?",
+          "initial": "carga-panel",
+          "requires": "catalogo-kits",
+          "options": [
+            {
+              "id": "carga-panel",
+              "tag": "F2.1",
+              "name": "Panel de administración",
+              "recommended": true,
+              "description": "Cuentas para 2 administradores, formulario de ingreso de kits (fotos, nombre, categoría, contenido, precio, disponibilidad) y vista de inventario. Autonomía total: agregar, editar y eliminar kits sin depender del desarrollador, a medida que la oferta crezca.",
+              "price": 240
+            },
+            {
+              "id": "carga-planilla",
+              "tag": "F2.2",
+              "name": "Planilla de Google Sheets",
+              "description": "Documento compartido en Google Sheets que los administradores editan. La planilla se sincroniza con el catálogo automáticamente, sin intervención del desarrollador. No incluye subida de fotos: las imágenes se cargan a la nube aparte y se pegan los enlaces en la planilla.",
+              "price": 90
+            },
+            {
+              "id": "carga-inicial",
+              "tag": "F2.3",
+              "name": "Catálogo fijo",
+              "description": "Carga realizada por el desarrollador una sola vez, con los kits que el cliente proporcione. Después el catálogo queda fijo: no hay panel ni planilla para actualizarlo.",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "kind": "toggle",
+          "id": "catalogo-prototipos",
+          "tag": "F2.4",
+          "name": "Prototipos en el catálogo",
+          "initial": false,
+          "requires": "catalogo-kits",
+          "description": "Los robots del club dentro del mismo catálogo, bajo su propia etiqueta: se filtran aparte de los kits y su ficha muestra especificaciones técnicas en lugar de precio y botón de pedido. No tiene tope de prototipos: se cargan por la misma vía que los kits.",
+          "price": 60
+        },
+        {
+          "kind": "toggle",
+          "id": "pdf-kits",
+          "tag": "F2.5",
+          "name": "Catálogo en PDF",
+          "initial": false,
+          "requires": "catalogo-kits",
+          "description": "Generación de un documento PDF descargable con los kits de una categoría o colección. El documento se sincroniza automáticamente con el catálogo y se puede descargar del sitio o enviar por WhatsApp.",
+          "price": 70
+        },
+        {
+          "kind": "toggle",
+          "id": "enlaces-kits",
+          "tag": "F2.6",
+          "name": "Enlaces compartibles",
+          "initial": false,
+          "requires": "catalogo-kits",
+          "description": "Enlaces individuales del catálogo clasificados por categoría o por colección, para compartir en redes o por mensaje.",
+          "price": 45
+        },
+        {
+          "kind": "toggle",
+          "id": "extras-kits",
+          "tag": "F2.7",
+          "name": "Etiquetas y contador de pedidos",
+          "initial": false,
+          "requires": "catalogo-kits",
+          "description": "Etiquetas «Nuevo» y «Destacado» para resaltar kits dentro del catálogo, y un registro del número de veces que cada kit fue solicitado por WhatsApp.",
+          "price": 30
         }
-    ]
+      ]
     },
     {
       "id": "fase3",
-      "name": "Fase 3 • Página de auspiciantes",
+      "name": "Fase 3 • Servicios",
       "items": [
         {
           "kind": "toggle",
-          "id": "f3-auspiciantes",
+          "id": "f3-servicios",
           "tag": "F3",
-          "name": "Página de auspiciantes",
-          "initial": false,
-          "description": "Sección con logos y niveles de auspicio, agradecimientos, y un expediente del club descargable en PDF (quiénes son, logros, cómo auspiciar) sincronizado con la página.",
+          "name": "Servicios de robótica",
+          "initial": true,
+          "description": "Catálogo de servicios (asesoría de proyectos, diseño y construcción de robots, arbitraje de competencias) con ficha de cada uno y botón de solicitud que abre WhatsApp con el servicio ya identificado en el mensaje.",
           "price": 100
         }
       ]
     },
     {
       "id": "fase4",
-      "name": "Fase 4 • Servicios",
+      "name": "Fase 4 • Página de auspiciantes",
+      "note": "Pieza opcional: no forma parte de lo solicitado en la reunión, se cotiza por si se quiere sumar.",
       "items": [
         {
           "kind": "toggle",
-          "id": "f4-servicios",
+          "id": "f5-auspiciantes",
           "tag": "F4",
-          "name": "Servicios de robótica",
+          "name": "Página de auspiciantes",
           "initial": false,
-          "description": "Catálogo de servicios (asesoría de proyectos, diseño y construcción de robots, arbitraje de competencias) con formulario de contacto que llega directo por correo o WhatsApp.",
+          "description": "Sección con logos y niveles de auspicio, agradecimientos, y un expediente del club descargable en PDF (quiénes son, logros, cómo auspiciar) sincronizado con la página.",
           "price": 100
         }
       ]
@@ -141,7 +203,7 @@
             "singular": "hora",
             "plural": "horas"
           },
-          "description": "Cambios de texto y ajustes menores posteriores a la publicación. Se acuerda una reunión para programar el trabajo y se descuenta según las horas efectivamente utilizadas.",
+          "description": "Cambios de estructura, diseño y ajustes menores posteriores a la publicación. No hace falta para el contenido de los kits si se elige el panel o la planilla: eso lo administra el cliente. Se acuerda una reunión para programar el trabajo y se descuenta según las horas efectivamente utilizadas.",
           "pricePerUnit": 15
         }
       ]
@@ -149,12 +211,14 @@
   ],
   "recurringCosts": [
     "Dominio: aproximadamente $25 al año, contratado a nombre de Aether Tech.",
-    "Hosting: la landing, el portafolio y la página de auspiciantes son páginas estáticas y no requieren servidor pago. El formulario de contacto de Servicios de robótica puede necesitar un servicio externo con plan gratuito limitado; si el volumen crece, tiene un costo aparte."
+    "Hosting: si se elige el panel de administración, el catálogo necesita un servidor y una base de datos activos, contratados a nombre de Aether Tech y facturados mensualmente; el valor depende del mercado. Con la planilla de Google Sheets o el catálogo fijo el sitio es estático y no requiere servidor pago."
   ],
   "notIncluded": [
-    "Fotografía de los robots y redacción de las especificaciones técnicas.",
+    "Pasarela de pagos y funcionalidades de tienda en línea: los pedidos se solicitan por WhatsApp y el cobro se acuerda fuera del sitio.",
+    "Fotografía de los kits y de los robots, y redacción de las especificaciones técnicas.",
+    "Carga del contenido inicial, salvo que se contrate el catálogo fijo con carga por el desarrollador.",
     "Diseño del isotipo definitivo de Aether Tech (hoy el sitio usa un logotipo provisional, ver cabecera).",
-    "Mantenimiento y cambios posteriores a la entrega, salvo que se contrate la bolsa de soporte.",
+    "Cambios de estructura y diseño posteriores a la entrega, salvo que se contrate la bolsa de soporte.",
     "Posicionamiento en buscadores y campañas de publicidad."
   ],
   "ui": {
@@ -181,5 +245,22 @@
     "scheduleNote": "El cronograma se acuerda al aprobar la propuesta y depende de los tiempos de revisión del cliente. La producción se ejecuta en días hábiles.",
     "validityTitle": "Validez de la cotización",
     "validitySuffix": "días desde la fecha de emisión"
+  },
+  "document": {
+    "title": "Cotización",
+    "numberLabel": "N.º",
+    "preparedFor": "Preparado para",
+    "preparedBy": "Preparado por",
+    "issuedOn": "Fecha de emisión",
+    "validity": "Validez",
+    "subjectLabel": "Asunto",
+    "colRef": "Ref.",
+    "colConcept": "Concepto",
+    "colAmount": "Valor",
+    "subtotal": "Subtotal",
+    "total": "Total estimado",
+    "signClient": "Por el cliente",
+    "signDeveloper": "Por el desarrollador",
+    "signNote": "La firma de este documento constituye la aprobación de las piezas detalladas y da inicio al cronograma."
   }
 }
