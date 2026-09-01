@@ -43,7 +43,7 @@
             "singular": "página",
             "plural": "páginas"
           },
-          "description": "Una página adicional accesible desde el menú. Incluye hasta 3 secciones. Si se requieren más secciones, se agregan en el ítem siguiente.",
+          "description": "Una página adicional accesible desde el menú de la landing. Incluye hasta 3 secciones. En caso de requerir más secciones, se agregan F1.2 Sección informativa adicional",
           "pricePerUnit": 100
         },
         {
@@ -67,7 +67,7 @@
     {
       "id": "fase2",
       "name": "Fase 2 • Catálogo",
-      "note": "El pedido se solicita por WhatsApp: el sitio no cobra en línea. El precio y la disponibilidad se confirman en el chat.",
+      "note": "Redireccionamiento a whatsapp de los clientes interesados en kits y servicios, no incluye pasarela de pagos ni funcionalidades de tienda en línea.",
       "items": [
         {
           "kind": "toggle",
@@ -86,7 +86,7 @@
         {
           "kind": "choice",
           "id": "carga",
-          "question": "¿Cómo entran y se actualizan los kits?",
+          "question": "Opciones de carga y actualización del catálogo",
           "initial": "carga-panel",
           "requires": "catalogo-kits",
           "options": [
@@ -95,14 +95,14 @@
               "tag": "F2.1",
               "name": "Panel de administración",
               "recommended": true,
-              "description": "Cuentas para 2 administradores, formulario de ingreso de kits (fotos, nombre, categoría, contenido, precio, disponibilidad) y vista de inventario. Autonomía total: agregar, editar y eliminar kits sin depender del desarrollador, a medida que la oferta crezca.",
+              "description": "Cuentas para 2 administradores, formulario de ingreso de kits (fotos, nombre, categoría, contenido, precio, disponibilidad) y vista de inventario. Autonomía total: agregar, editar y eliminar kits sin depender del desarrollador, a medida del crecimiento del negocio.",
               "price": 240
             },
             {
               "id": "carga-planilla",
               "tag": "F2.2",
               "name": "Planilla de Google Sheets",
-              "description": "Documento compartido en Google Sheets que los administradores editan. La planilla se sincroniza con el catálogo automáticamente, sin intervención del desarrollador. No incluye subida de fotos: las imágenes se cargan a la nube aparte y se pegan los enlaces en la planilla.",
+              "description": "La edicion se realiza mediante un documento compartido en google sheets a cargo de los administradores asignados. No incluye subida de fotos: las imágenes se cargan a la nube aparte y se pegan los enlaces en la planilla.",
               "price": 90
             },
             {
@@ -204,7 +204,7 @@
             "plural": "horas"
           },
           "description": "Cambios de estructura, diseño y ajustes menores posteriores a la publicación. No hace falta para el contenido de los kits si se elige el panel o la planilla: eso lo administra el cliente. Se acuerda una reunión para programar el trabajo y se descuenta según las horas efectivamente utilizadas.",
-          "pricePerUnit": 15
+          "pricePerUnit": 20
         }
       ]
     }
