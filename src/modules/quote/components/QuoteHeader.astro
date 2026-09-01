@@ -10,11 +10,18 @@ interface Props {
 }
 
 const { back, backHref } = Astro.props;
+/*
+  Todo lo que vive en public/ se sirve desde la raíz del sitio, no desde
+  /public/ — public/logo.png queda accesible en /logo.png. BASE_URL (no un
+  "/" a mano) por si algún día el sitio se despliega bajo una subruta, igual
+  que ya hace CommercialLayout.astro con el favicon.
+*/
+const BASE_URL = import.meta.env.BASE_URL;
 ---
 
 <header class="bp-header">
   <div class="bp-brand">
-    <div class="bp-brand__mark" aria-hidden="true"><img src="/public/logo.png" width="35" height="35" alt="Aether Tech" /></div>
+    <div class="bp-brand__mark" aria-hidden="true"><img src={`${BASE_URL}logo.png`} width="35" height="35" alt="Aether Tech" /></div>
     <div>
       <div class="bp-brand__name">Aether Tech</div>
       <div class="bp-brand__tagline">Robótica · Ciencia · Tecnología</div>
