@@ -19,7 +19,7 @@ const { back, backHref } = Astro.props;
 const BASE_URL = import.meta.env.BASE_URL;
 ---
 
-<header class="bp-header">
+<header class="bp-header" data-noprint="1">
   <div class="bp-brand">
     <div class="bp-brand__mark" aria-hidden="true"><img src={`${BASE_URL}logo.png`} width="35" height="35" alt="Aether Tech" /></div>
     <div>

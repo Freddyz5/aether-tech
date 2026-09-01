@@ -1,0 +1,168 @@
+---
+/*
+  La propuesta impresa. Sólo existe en papel: en pantalla el cotizador sigue
+  siendo la herramienta por piezas, pero lo que sale de la impresora es un
+  documento con membrete, número, tabla de conceptos, subtotales por fase,
+  condiciones y firmas — no una captura de la interfaz con los botones
+  apagados, que era lo que se imprimía antes.
+
+  No calcula nada: el marcado trae TODAS las filas y el controlador tapa las
+  que no se contrataron y rellena las cifras (paintDocument), igual que hace
+  con las piezas de pantalla. Por eso los ganchos data-doc-* de aquí tienen
+  que coincidir con los que core/controller.ts consulta, y el orden de los
+  <tbody data-doc-phase> con el de data.phases: se emparejan por posición.
+*/
+import { formatMoney } from '../core/format';
+import type { QuoteData } from '../core/types';
+
+interface Props {
+  data: QuoteData;
+}
+
+const { data } = Astro.props;
+const { document: doc, settings, ui } = data;
+const BASE_URL = import.meta.env.BASE_URL;
+
+/*
+  Las filas de un grupo excluyente son sus opciones, no el grupo: la línea que
+  el cálculo emite lleva el id de la opción elegida. Aplanar aquí evita repetir
+  el condicional por cada celda de la tabla.
+*/
+interface DocRow {
+  id: string;
+  tag?: string;
+  name: string;
+}
+
+const rowsOf = (phase: QuoteData['phases'][number]): DocRow[] =>
+  phase.items.flatMap((item) =>
+    item.kind === 'choice'
+      ? item.options.map((option) => ({ id: option.id, tag: option.tag, name: option.name }))
+      : [{ id: item.id, tag: item.tag, name: item.name }],
+  );
+---
+
+<article class="bp-doc" aria-hidden="true">
+  <header class="bp-doc__masthead">
+    <span class="bp-hero__corner bp-hero__corner--tl" aria-hidden="true"></span>
+    <span class="bp-hero__corner bp-hero__corner--br" aria-hidden="true"></span>
+
+    <div class="bp-doc__brand">
+      <img class="bp-doc__logo" src={`${BASE_URL}logo.png`} width="42" height="42" alt="" />
+      <div>
+        <div class="bp-brand__name">{settings.client}</div>
+        <div class="bp-brand__tagline">Robótica · Ciencia · Tecnología</div>
+      </div>
+    </div>
+
+    <div class="bp-doc__stamp">
+      <p class="bp-doc__kind">{doc.title}</p>
+      <p class="bp-doc__number">
+        <span class="bp-doc__number-label">{doc.numberLabel}</span>
+        <span data-doc-number></span>
+      </p>
+    </div>
+  </header>
+
+  <dl class="bp-doc__meta">
+    <div class="bp-doc__field">
+      <dt>{doc.preparedFor}</dt>
+      <dd>{settings.client}</dd>
+    </div>
+    <div class="bp-doc__field">
+      <dt>{doc.preparedBy}</dt>
+      <dd>{settings.preparedBy}</dd>
+    </div>
+    <div class="bp-doc__field">
+      <dt>{doc.issuedOn}</dt>
+      <dd data-doc-date></dd>
+    </div>
+    <div class="bp-doc__field">
+      <dt>{doc.validity}</dt>
+      <dd>{settings.validityDays} {ui.validitySuffix}</dd>
+    </div>
+  </dl>
+
+  <p class="bp-doc__subject">
+    <span class="bp-doc__subject-label">{doc.subjectLabel}</span>
+    <span class="bp-doc__subject-value">{settings.subject}</span>
+  </p>
+
+  <table class="bp-doc__table">
+    <thead>
+      <tr>
+        <th class="bp-doc__col-ref" scope="col">{doc.colRef}</th>
+        <th class="bp-doc__col-concept" scope="col">{doc.colConcept}</th>
+        <th class="bp-doc__col-amount" scope="col">{doc.colAmount}</th>
+      </tr>
+    </thead>
+
+    {
+      data.phases.map((phase) => (
+        <tbody data-doc-phase>
+          <tr class="bp-doc__phase">
+            <th colspan="3" scope="colgroup">
+              <span class="bp-doc__phase-dot" aria-hidden="true" />
+              {phase.name}
+            </th>
+          </tr>
+
+          {rowsOf(phase).map((row) => (
+            <tr class="bp-doc__row" data-doc-row data-id={row.id}>
+              <td class="bp-doc__ref">{row.tag}</td>
+              <td class="bp-doc__concept">
+                {row.name}
+                <span class="bp-doc__quantity" data-doc-quantity />
+              </td>
+              <td class="bp-doc__amount" data-doc-amount />
+            </tr>
+          ))}
+
+          <tr class="bp-doc__subtotal" data-doc-subtotal>
+            <td colspan="2">{doc.subtotal}</td>
+            <td class="bp-doc__amount" data-doc-amount />
+          </tr>
+        </tbody>
+      ))
+    }
+  </table>
+
+  <p class="bp-doc__total">
+    <span class="bp-doc__total-label">{doc.total}</span>
+    <span class="bp-doc__total-rule" aria-hidden="true"></span>
+    <span class="bp-doc__total-amount" data-doc-total-amount>{formatMoney(0, 'es')}</span>
+  </p>
+
+  <section class="bp-doc__terms">
+    <div class="bp-doc__term">
+      <h2 class="bp-doc__term-title">{ui.recurringTitle}</h2>
+      <ul class="bp-doc__list">
+        {data.recurringCosts.map((point) => <li>{point}</li>)}
+      </ul>
+    </div>
+    <div class="bp-doc__term">
+      <h2 class="bp-doc__term-title">{ui.notIncludedTitle}</h2>
+      <ul class="bp-doc__list">
+        {data.notIncluded.map((point) => <li>{point}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <p class="bp-doc__schedule">{ui.scheduleNote}</p>
+
+  <footer class="bp-doc__signatures">
+    <p class="bp-doc__sign-note">{doc.signNote}</p>
+    <div class="bp-doc__sign-row">
+      <div class="bp-doc__sign">
+        <span class="bp-doc__sign-rule" aria-hidden="true"></span>
+        <span class="bp-doc__sign-label">{doc.signClient}</span>
+        <span class="bp-doc__sign-name">{settings.client}</span>
+      </div>
+      <div class="bp-doc__sign">
+        <span class="bp-doc__sign-rule" aria-hidden="true"></span>
+        <span class="bp-doc__sign-label">{doc.signDeveloper}</span>
+        <span class="bp-doc__sign-name">{settings.preparedBy}</span>
+      </div>
+    </div>
+  </footer>
+</article>
